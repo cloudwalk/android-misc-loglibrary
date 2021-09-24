@@ -1,4 +1,4 @@
-package io.cloudwalk.pos.loglibrary;
+package io.cloudwalk.loglibrary;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("io.cloudwalk.pos.loglibrary.test", appContext.getPackageName());
+        assertEquals("io.cloudwalk.loglibrary.test", appContext.getPackageName());
     }
 }

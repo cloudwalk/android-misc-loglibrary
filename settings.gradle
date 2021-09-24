@@ -1,7 +1,2 @@
-rootProject.name = "android-pos-pinpadservice"
-include ':PinpadLibrary'
-include ':DEMO'
-include ':VerifoneService'
-include ':UtilitiesLibrary'
+rootProject.name = "android-misc-loglibrary"
 include ':LogLibrary'
-include ':SunmiService'
