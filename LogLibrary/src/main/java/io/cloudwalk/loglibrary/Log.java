@@ -44,40 +44,46 @@ public class Log {
         StringBuilder[] msg = { new StringBuilder(), new StringBuilder(), new StringBuilder() };
 
         for (int i = 0; i < length; i++) {
-            byte b = input[i];
+            try {
+                byte b = input[i];
 
-            msg[0].append(String.format(US, "%02X ", b));
+                msg[0].append(String.format(US, "%02X ", b));
 
-            msg[1].append((b > 0x20 && b < 0x7F) ? (char) b : '.');
+                msg[1].append((b > 0x20 && b < 0x7F) ? (char) b : '.');
 
-            if ((msg[1].length() % 16) != 0 && (i + 1) >= length) {
-                int ceil;
+                if ((msg[1].length() % 16) != 0 && (i + 1) >= length) {
+                    int ceil;
 
-                ceil = 48 - (msg[0].length() % 48);
+                    ceil = 48 - (msg[0].length() % 48);
 
-                for (int j = 0; j < ceil; j += 3) {
-                    msg[0].append(".. ");
+                    for (int j = 0; j < ceil; j += 3) {
+                        msg[0].append(".. ");
+                    }
+
+                    ceil = 16 - (msg[1].length() % 16);
+
+                    for (int j = 0; j < ceil; j++) {
+                        msg[1].append(".");
+                    }
                 }
 
-                ceil = 16 - (msg[1].length() % 16);
+                if ((i > 0 && msg[1].length() % 16 == 0) || (i + 1) >= length) {
+                    msg[0].append(msg[1]);
 
-                for (int j = 0; j < ceil; j++) {
-                    msg[1].append(".");
+                    msg[2].append("\n").append(msg[0]);
+
+                    msg[0].delete(0, msg[0].length());
+
+                    msg[1].delete(0, msg[1].length());
                 }
-            }
+            } catch (Exception exception) {
+                e(TAG, getStackTraceString(exception));
 
-            if ((i > 0 && msg[1].length() % 16 == 0) || (i + 1) >= length) {
-                msg[0].append(msg[1]);
-
-                msg[2].append("\n").append(msg[0]);
-
-                msg[0].delete(0, msg[0].length());
-
-                msg[1].delete(0, msg[1].length());
+                break;
             }
         }
 
-        return msg[2].toString();
+        return msg[2].substring(1);
     }
 
     public static String getStackTraceString(Throwable tr) {
@@ -85,6 +91,10 @@ public class Log {
     }
 
     public static void h(String tag, byte[] input, int length) {
+        if (length <= 0) {
+            return;
+        }
+
         String[] msg = getByteTraceString(input, length).split("\n");
 
         for (String slice : msg) {

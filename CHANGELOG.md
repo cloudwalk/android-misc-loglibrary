@@ -1,7 +1,11 @@
 # CHANGELOG
 
 ## Known issues
-- log-to-file is currently pending development.
+- Log-to-file is currently pending development.
+
+## [1.0.2] - 2021-11-16
+- Increase `Log#getByteTraceString(byte[], int)` and
+  `Log#h(String, byte[], int)` protection against invalid arguments.
 
 ## [1.0.1] - 2021-10-04
 - Erase dependency list to shrink final package. 
