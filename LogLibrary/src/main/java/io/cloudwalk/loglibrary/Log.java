@@ -2,27 +2,35 @@ package io.cloudwalk.loglibrary;
 
 import static java.util.Locale.US;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class Log {
     private static final String
             TAG =  Log.class.getSimpleName();
 
     public static final int
-            ASSERT = Log.ASSERT;
+            ASSERT  = android.util.Log.ASSERT;
 
     public static final int
-            DEBUG = Log.DEBUG;
+            DEBUG   = android.util.Log.DEBUG;
 
     public static final int
-            ERROR = Log.ERROR;
+            ERROR   = android.util.Log.ERROR;
 
     public static final int
-            INFO = Log.INFO;
+            INFO    = android.util.Log.INFO;
 
     public static final int
-            VERBOSE = Log.VERBOSE;
+            VERBOSE = android.util.Log.VERBOSE;
 
     public static final int
-            WARN = Log.WARN;
+            WARN    = android.util.Log.WARN;
+
+    private Log() {
+        /* Nothing to do */
+    }
 
     public static int d(String tag, String msg, Throwable tr) {
         return android.util.Log.d(tag, msg, tr);
@@ -38,6 +46,10 @@ public class Log {
 
     public static int e(String tag, String msg, Throwable tr) {
         return android.util.Log.e(tag, msg, tr);
+    }
+
+    public static File[] export() {
+        return Sniffer.export();
     }
 
     public static String getByteTraceString(byte[] input, int length) {
@@ -91,15 +103,11 @@ public class Log {
     }
 
     public static void h(String tag, byte[] input, int length) {
-        if (length <= 0) {
-            return;
-        }
+        if (length <= 0) { return; }
 
         String[] msg = getByteTraceString(input, length).split("\n");
 
-        for (String slice : msg) {
-            android.util.Log.d(tag, slice);
-        }
+        for (String slice : msg) { android.util.Log.d(tag, slice); }
     }
 
     public static int i(String tag, String msg, Throwable tr) {
@@ -116,6 +124,37 @@ public class Log {
 
     public static int println(int priority, String tag, String msg) {
         return android.util.Log.println(priority, tag, msg);
+    }
+
+    public static void s(int priority, String tag, String msg) {
+        switch (priority) {
+            case DEBUG:     Log.d(tag, msg); break;
+            case ERROR:     Log.e(tag, msg); break;
+            case INFO:      Log.i(tag, msg); break;
+            case VERBOSE:   Log.v(tag, msg); break;
+            case WARN:      Log.w(tag, msg); break;
+
+            default:
+                println(priority, tag, msg);
+                break;
+        }
+
+        Sniffer.write(tag, msg);
+    }
+
+    public static void s(int priority, String tag, String msg, Throwable tr) {
+        if (msg == null) { msg = ""; }
+
+        StringWriter sw = new StringWriter();
+        PrintWriter  pw = new PrintWriter(sw);
+
+        tr.printStackTrace(pw);
+
+        String trace = sw.toString();
+
+        if (!msg.isEmpty() && !trace.isEmpty()) { msg += "\r\n"; }
+
+        s(priority, tag, msg);
     }
 
     public static int v(String tag, String msg) {

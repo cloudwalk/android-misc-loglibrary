@@ -1,7 +1,7 @@
 # CHANGELOG
 
-## Known issues
-- Log-to-file is currently pending development.
+## [1.1.0] = 2021-11-29
+- Add log-to-file features.
 
 ## [1.0.2] - 2021-11-16
 - Increase `Log#getByteTraceString(byte[], int)` and

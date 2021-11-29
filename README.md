@@ -8,8 +8,10 @@ extend it. Its public API mirrors the former, simplifying swap or replacement.
 - _byte[]_ stream trace
   - `Log.h(String, byte[], int)`
   - `Log.getByteTraceString(byte[], int)`
-- `TODO:` log-to-file
-  - `Log.s(String, String)`
+- log-to-file
+  - `Log.export()`
+  - `Log.s(int, String, String)`
+  - `Log.s(int, String, String, Throwable)`
 
 ## Dependencies
 
