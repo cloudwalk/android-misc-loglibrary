@@ -124,7 +124,7 @@ public class Sniffer {
                     FileOutputStream   fos = new FileOutputStream  (sPath, true);
                     OutputStreamWriter osw = new OutputStreamWriter(fos, ISO_8859_1);
 
-                    osw.append(trace);
+                    osw.append(trace.toString().replaceAll("[^\n,\r, -~]", "_"));
                     osw.close ();
                 } catch (Exception exception) {
                     android.util.Log.e(TAG, android.util.Log.getStackTraceString(exception));
