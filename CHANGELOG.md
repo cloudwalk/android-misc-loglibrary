@@ -1,9 +1,14 @@
 # CHANGELOG
 
-## [1.1.1] = 2021-11-29
+## [1.1.2] - 2022-01-26
+- Ensure no exception will be thrown by `Log#getByteTraceString(byte[], int)`
+  when `length` is 'out-of-range' - e.g. '0', '-1', etc.
+- Update code patterns.
+
+## [1.1.1] - 2021-11-29
 - Ensure the removal of special characters when using log-to-file features.
 
-## [1.1.0] = 2021-11-29
+## [1.1.0] - 2021-11-29
 - Add log-to-file features.
 
 ## [1.0.2] - 2021-11-16

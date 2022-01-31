@@ -3,9 +3,6 @@ package io.cloudwalk.loglibrary;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.util.Locale.US;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -21,13 +18,13 @@ public class Sniffer {
             TAG = Sniffer.class.getSimpleName();
 
     private static final Semaphore
-            SEMAPHORE = new Semaphore(1, true);
+            sSemaphore = new Semaphore(1, true);
 
     private static String
             sPath = null;
 
-    private static void clear() {
-        android.util.Log.d(TAG, "clear");
+    private static void _clear() {
+        android.util.Log.d(TAG, "_clear");
 
         File dir = Application.getPackageContext().getExternalFilesDir("Log");
 
@@ -48,20 +45,9 @@ public class Sniffer {
     }
 
     private Sniffer() {
-        Log.d(TAG, "LogLibrary v" + BuildConfig.VERSION_NAME);
+        Log.d(TAG, "Sniffer::LogLibrary v" + BuildConfig.VERSION_NAME);
 
-        try {
-            Context     context     = Application.getPackageContext();
-
-            PackageInfo packageInfo = context
-                    .getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0);
-
-            Log.d(TAG, packageInfo.applicationInfo.name + " v" + packageInfo.versionName);
-
-        } catch (Exception exception) {
-            Log.e(TAG, Log.getStackTraceString(exception));
-        }
+        /* Nothing to do */
     }
 
     public static void write(String tag, String msg, Throwable tr) {
@@ -85,13 +71,11 @@ public class Sniffer {
             public void run() {
                 super.run();
 
-                SEMAPHORE.acquireUninterruptibly();
-
                 try {
-                    StringBuilder trace = new StringBuilder();
+                    sSemaphore.acquireUninterruptibly();
 
-                    String timestamp    = new SimpleDateFormat("MM-dd HH:mm:ss.SSS", US)
-                            .format(Calendar.getInstance().getTime());
+                    StringBuilder   trace     = new StringBuilder();
+                    String          timestamp = new SimpleDateFormat("MM-dd HH:mm:ss.SSS", US).format(Calendar.getInstance().getTime());
 
                     for (String slice : msg.split("\n")) {
                         trace.append(timestamp).append(" ").append(tag).append(": ").append(slice).append("\r\n");
@@ -111,12 +95,11 @@ public class Sniffer {
                                 .getExternalFilesDir("Log")
                                 .getAbsolutePath();
 
-                        String name = new SimpleDateFormat("yyMMddHHmmss", US)
-                                .format(Calendar.getInstance().getTime());
+                        String name = new SimpleDateFormat("yyMMddHHmmss", US).format(Calendar.getInstance().getTime());
 
                         sPath = root + "/" + name + ".log";
 
-                        if (!(new File(sPath)).exists()) { clear(); continue; }
+                        if (!(new File(sPath)).exists()) { _clear(); continue; }
 
                         sPath = null;
                     } while (true);
@@ -128,21 +111,21 @@ public class Sniffer {
                     osw.close ();
                 } catch (Exception exception) {
                     android.util.Log.e(TAG, android.util.Log.getStackTraceString(exception));
+                } finally {
+                    sSemaphore.release();
                 }
-
-                SEMAPHORE.release();
             }
         }.start();
     }
 
     public static File[] export() {
-        SEMAPHORE.acquireUninterruptibly();
+        sSemaphore.acquireUninterruptibly();
 
         sPath = null;
 
         File[] list = Application.getPackageContext().getExternalFilesDir("Log").listFiles();
 
-        SEMAPHORE.release();
+        sSemaphore.release();
 
         return list;
     }

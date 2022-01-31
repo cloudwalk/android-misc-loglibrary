@@ -95,7 +95,7 @@ public class Log {
             }
         }
 
-        return msg[2].substring(1);
+        return (msg[2].length() > 0) ? msg[2].substring(1) : msg[2].substring(0);
     }
 
     public static String getStackTraceString(Throwable tr) {
