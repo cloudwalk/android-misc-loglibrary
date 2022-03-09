@@ -18,7 +18,7 @@ public class Sniffer {
             TAG = Sniffer.class.getSimpleName();
 
     private static final Semaphore
-            sSemaphore = new Semaphore(1, true);
+            sSnifferSemaphore = new Semaphore(1, true);
 
     private static String
             sPath = null;
@@ -66,13 +66,17 @@ public class Sniffer {
     }
 
     public static void write(String tag, String msg) {
+        Semaphore semaphore = new Semaphore(0, true);
+
         new Thread() {
             @Override
             public void run() {
                 super.run();
 
+                semaphore.release();
+
                 try {
-                    sSemaphore.acquireUninterruptibly();
+                    sSnifferSemaphore.acquireUninterruptibly();
 
                     StringBuilder   trace     = new StringBuilder();
                     String          timestamp = new SimpleDateFormat("MM-dd HH:mm:ss.SSS", US).format(Calendar.getInstance().getTime());
@@ -112,20 +116,22 @@ public class Sniffer {
                 } catch (Exception exception) {
                     android.util.Log.e(TAG, android.util.Log.getStackTraceString(exception));
                 } finally {
-                    sSemaphore.release();
+                    sSnifferSemaphore.release();
                 }
             }
         }.start();
+
+        semaphore.acquireUninterruptibly();
     }
 
     public static File[] export() {
-        sSemaphore.acquireUninterruptibly();
+        sSnifferSemaphore.acquireUninterruptibly();
 
         sPath = null;
 
         File[] list = Application.getPackageContext().getExternalFilesDir("Log").listFiles();
 
-        sSemaphore.release();
+        sSnifferSemaphore.release();
 
         return list;
     }

@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [1.1.3] - 2022-03-09
+- Ensure proper queueing of `Sniffer#write(String, String)`.
+
 ## [1.1.2] - 2022-01-26
 - Ensure no exception will be thrown by `Log#getByteTraceString(byte[], int)`
   when `length` is 'out-of-range' - e.g. '0', '-1', etc.
