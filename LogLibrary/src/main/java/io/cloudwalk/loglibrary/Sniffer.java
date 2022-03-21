@@ -26,7 +26,7 @@ public class Sniffer {
     private static void _clear() {
         android.util.Log.d(TAG, "_clear");
 
-        File dir = Application.getPackageContext().getExternalFilesDir("Log");
+        File dir = Application.getContext().getExternalFilesDir("Log");
 
         if (dir.exists()) {
             for (File file : dir.listFiles()) {
@@ -45,7 +45,7 @@ public class Sniffer {
     }
 
     private Sniffer() {
-        Log.d(TAG, "Sniffer::LogLibrary v" + BuildConfig.VERSION_NAME);
+        Log.d(TAG, "Sniffer");
 
         /* Nothing to do */
     }
@@ -95,7 +95,7 @@ public class Sniffer {
                         }
 
                         String root = Application
-                                .getPackageContext()
+                                .getContext()
                                 .getExternalFilesDir("Log")
                                 .getAbsolutePath();
 
@@ -129,7 +129,7 @@ public class Sniffer {
 
         sPath = null;
 
-        File[] list = Application.getPackageContext().getExternalFilesDir("Log").listFiles();
+        File[] list = Application.getContext().getExternalFilesDir("Log").listFiles();
 
         sSnifferSemaphore.release();
 

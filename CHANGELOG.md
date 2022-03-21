@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [1.1.4] - 2022-03-dd
+- Replace `Application#getPackageContext()` by `Application#getContext()`.
+
 ## [1.1.3] - 2022-03-09
 - Ensure proper queueing of `Sniffer#write(String, String)`.
 

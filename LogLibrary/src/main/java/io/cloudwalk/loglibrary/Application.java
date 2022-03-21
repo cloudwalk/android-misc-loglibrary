@@ -1,18 +1,30 @@
 package io.cloudwalk.loglibrary;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 public class Application extends android.app.Application {
     private static final String
             TAG = Application.class.getSimpleName();
 
+    @SuppressLint("StaticFieldLeak")
     private static Context
-            sPackageContext = null;
+            sContext = null;
 
+    public static Context getContext() {
+        // Log.d(TAG, "getContext");
+
+        return Application.sContext;
+    }
+
+    /**
+     * @deprecated As of release 1.1.4, replaced by {@link Application#getContext()}.
+     */
+    @Deprecated
     public static Context getPackageContext() {
-        // Log.d(TAG, "getPackageContext");
+        Log.e(TAG, "`Application#getPackageContext()` is deprecated. Prefer `Application#getContext()`");
 
-        return Application.sPackageContext;
+        return Application.sContext;
     }
 
     @Override
@@ -21,6 +33,6 @@ public class Application extends android.app.Application {
 
         super.onCreate();
 
-        Application.sPackageContext = getApplicationContext();
+        Application.sContext = getApplicationContext();
     }
 }
