@@ -26,14 +26,14 @@ independent of local or copyrighted packages of any type.
 2. Run task: `gradle publishToMavenLocal`
 
 Local publishing within this repository is actually set to use the `release`
-build variant only.
+build variant only.  
 
 ## Development notes
 
 Those which intend to consume `io.cloudwalk.loglibrary` and have already
 extended `android.app.Application` will face a fatal failure at build time.
 There are two options to bypass such failure, keeping all of the library
-original features:
+original features:  
 
 1. Extend `io.cloudwalk.loglibrary.Application` instead of
 `android.app.Application` and ensure to include `tools:replace="android:name"`
