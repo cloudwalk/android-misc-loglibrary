@@ -13,7 +13,7 @@ public class Application extends android.app.Application {
 
     @SuppressLint("StaticFieldLeak")
     private static AtomicReference<android.app.Application>
-            sInstance = null;
+            sInstance = new AtomicReference<>(null);
 
     public static android.app.Application getInstance() {
         // Log.d(TAG, "getInstance");
