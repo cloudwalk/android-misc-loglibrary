@@ -3,7 +3,7 @@
 `io.cloudwalk.loglibrary` was designed to explicitly extend `android.util.log`.
 Its public API mirrors the OS's default, simplifying swap or replacement.  
 
-## Features
+## Library features
 
 - _byte[]_ stream trace
   - `Log.getByteTraceString(byte[], int)`
