@@ -8,11 +8,11 @@ def groupId = 'io.cloudwalk'
 def artifactId = 'loglibrary'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 31
 
     defaultConfig {
         minSdkVersion 22
-        targetSdkVersion 32
+        targetSdkVersion 31
         versionCode 106
         versionName "1.1.5"
 
