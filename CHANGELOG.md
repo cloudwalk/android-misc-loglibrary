@@ -1,7 +1,7 @@
 # CHANGELOG
 
 ## [1.1.5] - 2022-MM-DD
-- Overload `byte` API to allow partial tracing:
+- Overload `byte` API to allow partial tracing:  
   - `Log#h(String, byte, int, int)`
   - `getByteTraceString#(byte, int, int)`
 - Update `Application` with `Application#setInstance(android.app.Application)`
