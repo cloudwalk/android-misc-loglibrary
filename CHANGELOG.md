@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [1.1.5] - 2022-MM-DD
+## [1.1.5] - 2022-06-03
 - Overload `byte` API to allow partial tracing:  
   - `Log#h(String, byte, int, int)`
   - `getByteTraceString#(byte, int, int)`
