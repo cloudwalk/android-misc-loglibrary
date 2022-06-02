@@ -25,7 +25,7 @@ independent of local or copyrighted packages of any type.
 1. Rebuild the `release` variant based on a tag or commit of your choice.
 2. Run task: `gradle publishToMavenLocal`
 
-Local publishing within this repository is actually set to publish the `release`
+Local publishing within this repository is actually set to use the `release`
 build variant only.
 
 ## Development notes
@@ -44,4 +44,4 @@ in the application's `AndroidManifest.xml`.
 2. Include `tools:replace="android:name"` in the application's
 `AndroidManifest.xml` and invoke
 `io.cloudwalk.loglibrary.Application#setInstance(android.app.Application)`
-prior to any other calls to methods from `io.cloudwalk.loglibrary`.
+prior to any other calls to `io.cloudwalk.loglibrary`.
