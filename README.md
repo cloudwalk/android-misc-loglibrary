@@ -15,7 +15,7 @@ Its public API mirrors the OS's default, simplifying swap or replacement.
   - `Log.s(int, String, String)`
   - `Log.s(int, String, String, Throwable)`
 
-## Dependencies
+## Project dependencies
 
 Due to its very fundamental scope, `io.cloudwalk.loglibrary` was designed to be
 independent of local or copyrighted packages of any type.  
