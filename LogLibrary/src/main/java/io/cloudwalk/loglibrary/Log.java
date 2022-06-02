@@ -118,10 +118,12 @@ public class Log {
     }
 
     public static void h(String tag, byte[] input, int length, int offset) {
-        String[] msg = getByteTraceString(input, length, offset).split("\n");
+        String trace = getByteTraceString(input, length, offset);
 
-        for (String slice : msg) {
-            android.util.Log.d(tag, slice);
+        if (!trace.isEmpty()) {
+            for (String slice : trace.split("\n")) {
+                android.util.Log.d(tag, slice);
+            }
         }
     }
 
