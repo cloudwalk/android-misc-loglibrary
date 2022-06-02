@@ -1,5 +1,7 @@
 # Log Library
 
+<img src="SHIELD.svg"/><br/>
+
 `io.cloudwalk.loglibrary` was designed to explicitly extend `android.util.log`.
 Its public API mirrors the OS's default, simplifying swap or replacement.  
 
@@ -18,7 +20,9 @@ Its public API mirrors the OS's default, simplifying swap or replacement.
 ## Project dependencies
 
 Due to its very fundamental scope, `io.cloudwalk.loglibrary` was designed to be
-independent of local or copyrighted packages of any type.  
+independent of local or copyrighted[^1] packages of any type.  
+
+[^1]: Those provided by third parties, usually under NDA.
 
 ## Local publishing
 
@@ -38,9 +42,9 @@ original features:
 1. Extend `io.cloudwalk.loglibrary.Application` instead of
 `android.app.Application` and ensure to include `tools:replace="android:name"`
 in the application's `AndroidManifest.xml`.
-   - `io.cloudwalk.loglibrary.Application` was designed to merely intercept and
+   - _`io.cloudwalk.loglibrary.Application` was designed to merely intercept and
    cache the application instance for internal usage. It doesn't change
-   `android.app.Application` behavior. No side effects are expected.
+   `android.app.Application` behavior. No side effects are expected._
 2. Include `tools:replace="android:name"` in the application's
 `AndroidManifest.xml` and invoke
 `io.cloudwalk.loglibrary.Application#setInstance(android.app.Application)`
