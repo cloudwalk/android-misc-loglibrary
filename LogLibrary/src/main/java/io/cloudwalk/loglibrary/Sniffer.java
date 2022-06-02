@@ -125,13 +125,21 @@ public class Sniffer {
     }
 
     public static File[] export() {
-        sSnifferSemaphore.acquireUninterruptibly();
+        File[] list;
 
-        sPath = null;
+        try {
+            sSnifferSemaphore.acquireUninterruptibly();
 
-        File[] list = Application.getContext().getExternalFilesDir("Log").listFiles();
+            sPath = null;
 
-        sSnifferSemaphore.release();
+            list = Application.getContext().getExternalFilesDir("Log").listFiles();
+        } catch (Exception exception) {
+            android.util.Log.e(TAG, android.util.Log.getStackTraceString(exception));
+
+            list = null;
+        } finally {
+            sSnifferSemaphore.release();
+        }
 
         return list;
     }

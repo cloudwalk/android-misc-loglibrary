@@ -53,10 +53,23 @@ public class Log {
     }
 
     public static String getByteTraceString(byte[] input, int length) {
-        StringBuilder[] msg = { new StringBuilder(), new StringBuilder(), new StringBuilder() };
+        return getByteTraceString(input, length, 0);
+    }
 
-        for (int i = 0; i < length; i++) {
-            try {
+    public static String getByteTraceString(byte[] input, int length, int offset) {
+        StringBuilder[] msg = {
+                new StringBuilder(),
+                new StringBuilder(),
+                new StringBuilder()
+        };
+
+        try {
+            length = Math.max(length, 0);
+            length = Math.min(length, input.length);
+
+            offset = Math.max(offset, 0);
+
+            for (int i = offset; i < length; i++) {
                 byte b = input[i];
 
                 msg[0].append(String.format(US, "%02X ", b));
@@ -88,11 +101,9 @@ public class Log {
 
                     msg[1].delete(0, msg[1].length());
                 }
-            } catch (Exception exception) {
-                e(TAG, getStackTraceString(exception));
-
-                break;
             }
+        } catch (Exception exception) {
+            e(TAG, getStackTraceString(exception));
         }
 
         return (msg[2].length() > 0) ? msg[2].substring(1) : msg[2].substring(0);
@@ -103,11 +114,15 @@ public class Log {
     }
 
     public static void h(String tag, byte[] input, int length) {
-        if (length <= 0) { return; }
+        h(tag, input, length, 0);
+    }
 
-        String[] msg = getByteTraceString(input, length).split("\n");
+    public static void h(String tag, byte[] input, int length, int offset) {
+        String[] msg = getByteTraceString(input, length, offset).split("\n");
 
-        for (String slice : msg) { android.util.Log.d(tag, slice); }
+        for (String slice : msg) {
+            android.util.Log.d(tag, slice);
+        }
     }
 
     public static int i(String tag, String msg, Throwable tr) {
@@ -128,11 +143,11 @@ public class Log {
 
     public static void s(int priority, String tag, String msg) {
         switch (priority) {
-            case DEBUG:     Log.d(tag, msg); break;
-            case ERROR:     Log.e(tag, msg); break;
-            case INFO:      Log.i(tag, msg); break;
-            case VERBOSE:   Log.v(tag, msg); break;
-            case WARN:      Log.w(tag, msg); break;
+            case DEBUG:     d(tag, msg); break;
+            case ERROR:     e(tag, msg); break;
+            case INFO:      i(tag, msg); break;
+            case VERBOSE:   v(tag, msg); break;
+            case WARN:      w(tag, msg); break;
 
             default:
                 println(priority, tag, msg);
