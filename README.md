@@ -17,7 +17,7 @@ Its public API mirrors the OS's default, simplifying swap or replacement.
 
 ## Dependencies
 
-Due to its very fundamental scope, the Log Library was designed to be
+Due to its very fundamental scope, `io.cloudwalk.loglibrary` was designed to be
 independent of local or copyrighted packages of any type.  
 
 ## Local publishing
@@ -30,8 +30,8 @@ build variant only.
 
 ## Development notes
 
-Those which intend to consume `io.cloudwalk.loglibrary` and have already
-extended `android.app.Application` will face a fatal failure at build time.
+Those who have already extended `android.app.Application` may face a fatal
+failure at build time after adding `io.cloudwalk.loglibrary` as a dependency.  
 There are two options to bypass such failure, keeping all of the library
 original features:  
 
@@ -39,7 +39,7 @@ original features:
 `android.app.Application` and ensure to include `tools:replace="android:name"`
 in the application's `AndroidManifest.xml`.
    - `io.cloudwalk.loglibrary.Application` was designed to merely intercept and
-   cache the application instance for internal consumption. It doesn't change
+   cache the application instance for internal usage. It doesn't change
    `android.app.Application` behavior. No side effects are expected.
 2. Include `tools:replace="android:name"` in the application's
 `AndroidManifest.xml` and invoke
