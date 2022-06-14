@@ -49,3 +49,26 @@ in the application's `AndroidManifest.xml`.
 `AndroidManifest.xml` and invoke
 `io.cloudwalk.loglibrary.Application#setInstance(android.app.Application)`
 prior to any other calls to `io.cloudwalk.loglibrary`.
+
+### ProGuard rules
+
+Following are the recommended ProGuard rules to `release` variants of
+applications depending on `io.cloudwalk.loglibrary`:  
+
+```
+-assumenosideeffects class android.util.Log {
+    public static int d(...);
+    public static int e(...);
+#   public static java.lang.String getStackTraceString(...);
+    public static int i(...);
+    public static boolean isLoggable(java.lang.String, int);
+    public static int println(...);
+    public static int v(...);
+    public static int w(...);
+    public static int wtf(...);
+}
+```
+
+These rules will block all log output, except for log-to-file, not only from
+`io.cloudwalk.loglibrary` but also from all other dependencies that may rely on
+`android.util.Log`.  
